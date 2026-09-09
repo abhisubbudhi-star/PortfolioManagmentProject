@@ -1,13 +1,17 @@
 package com.portfolio.app;
+import com.portfolioproject.model.*;
 
-/**
- * Hello world!
- */
+ 
+ 
 public class Main {
     public static void main(String[] args)
     {
         System.out.println("=============================");
-        System.out.println(" Welcome to Portfolio Project");
-        System.out.println(" ============================");
+        System.out.println("  Portfolio Management Project");
+        System.out.println(" ============================");                                                    
+        User user=new User("101","Abhi","Abhi@gmail.com");
+        System.out.println("User ID: =" + user.getUserid());
+        System.out.println("Name:" + user.getName());  
+        System.out.println("Email: " + user.getEmail());
     }
-} 
+}  
