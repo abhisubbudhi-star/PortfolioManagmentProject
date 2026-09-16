@@ -3,7 +3,6 @@ package com.portfolio.app.app;
 
 import com.portfolio.app.model.*;
 import com.portfolio.app.model.Stock;
-
 import com.portfolio.app.model.MutualFund;
 import com.portfolio.app.model.Holding;
 
