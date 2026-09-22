@@ -1,223 +1,299 @@
 package com.portfolio.app.app;
 
-
-import com.portfolio.app.model.*;
+import com.portfolio.app.model.User;
 import com.portfolio.app.model.Stock;
 import com.portfolio.app.model.MutualFund;
 import com.portfolio.app.model.Holding;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
-
-
-
 
 public class Main {
 
-	 public static void main(String[] args) {
+    // Store all users
+    static List<User> users = new ArrayList<>();
 
-		 
-		Scanner sc =new Scanner(System.in);
-		
-		  User user =null;
-		  
-	        int choice;
-	        
+    public static void main(String[] args) {
 
-	        System.out.println("=====================================");
-	        System.out.println("   STOCK PORTFOLIO MANAGEMENT SYSTEM");
-	        System.out.println("=====================================");
+        Scanner sc = new Scanner(System.in);
 
-	        do {
+        int choice;
 
-	            System.out.println("\n----------- MENU -----------");
-	            System.out.println("1. Create User");
-	            System.out.println("2. Add Stock Holding");
-	            System.out.println("3. Add Mutual Fund Holding");
-	            System.out.println("4. Display User");
-	            System.out.println("5. Display Holdings");
-	            System.out.println("6. Exit");
-	            System.out.println("----------------------------");
+        System.out.println("=====================================");
+        System.out.println("   STOCK PORTFOLIO MANAGEMENT SYSTEM");
+        System.out.println("=====================================");
 
-	            System.out.print("Enter your choice: ");
-	            choice = sc.nextInt();
-	            sc.nextLine();
+        do {
 
-	            switch (choice) {
+            System.out.println("\n----------- MENU -----------");
+            System.out.println("1. Create User");
+            System.out.println("2. Add Stock Holding");
+            System.out.println("3. Add Mutual Fund Holding");
+            System.out.println("4. Display User");
+            System.out.println("5. Display Holdings");
+            System.out.println("6. Exit");
+            System.out.println("----------------------------");
 
-	            case 1:
+            System.out.print("Enter your choice: ");
+            choice = sc.nextInt();
+            sc.nextLine();
 
-	                System.out.println("\n--- Create User ---");
+            switch (choice) {
 
-	                System.out.print("Enter User ID: ");
-	                String userid = sc.nextLine();
+                // =========================================
+                // CASE 1: CREATE USER
+                // =========================================
+                case 1:
 
-	                System.out.print("Enter User Name: ");
-	                String name = sc.nextLine();
+                    System.out.println("\n--- Create User ---");
 
-	                System.out.print("Enter Email: ");
-	                String email = sc.nextLine();
+                    System.out.print("Enter User ID: ");
+                    String userid = sc.nextLine();
 
-	                user = new User(userid, name, email);
+                    System.out.print("Enter User Name: ");
+                    String name = sc.nextLine();
 
-	                System.out.println("User created successfully!");
+                    System.out.print("Enter Email: ");
+                    String email = sc.nextLine();
 
-	                break;
+                    User newUser = new User(userid, name, email);
 
+                    // Add user to users list
+                    users.add(newUser);
 
-	            case 2:
+                    System.out.println("User created successfully!");
 
-	                if (user == null) {
-	                    System.out.println("Please create a user first.");
-	                    break;
-	                }
+                    break;
 
-	                System.out.println("\n--- Add Stock Holding ---");
 
-	                System.out.print("Enter Holding ID: ");
-	                String stockHoldingId = sc.nextLine();
+                // =========================================
+                // CASE 2: ADD STOCK HOLDING
+                // =========================================
+                case 2:
 
-	                System.out.print("Enter Stock ID: ");
-	                String stockId = sc.nextLine();
+                    if (users.isEmpty()) {
+                        System.out.println("Please create a user first.");
+                        break;
+                    }
 
-	                System.out.print("Enter Stock Name: ");
-	                String stockName = sc.nextLine();
+                    System.out.println("\n--- Add Stock Holding ---");
 
-	                System.out.print("Enter Purchase Price: ");
-	                double purchasePrice = sc.nextDouble();
+                    // Ask which user owns this holding
+                    System.out.print("Enter User ID: ");
+                    String stockUserId = sc.nextLine();
 
-	                System.out.print("Enter Current Price: ");
-	                double currentPrice = sc.nextDouble();
+                    User stockUser = findUser(stockUserId);
 
-	                System.out.print("Enter Quantity: ");
-	                int quantity = sc.nextInt();
+                    if (stockUser == null) {
+                        System.out.println("User not found.");
+                        break;
+                    }
 
-	                sc.nextLine();
+                    System.out.print("Enter Holding ID: ");
+                    String stockHoldingId = sc.nextLine();
 
-	                Stock stock = new Stock(
-	                        stockId,
-	                        stockName,
-	                        purchasePrice,
-	                        currentPrice
-	                );
+                    System.out.print("Enter Stock ID: ");
+                    String stockId = sc.nextLine();
 
-	                Holding stockHolding = new Holding(
-	                        stockHoldingId,
-	                        stock,
-	                        quantity
-	                );
+                    System.out.print("Enter Stock Name: ");
+                    String stockName = sc.nextLine();
 
-	                user.addHolding(stockHolding);
+                    System.out.print("Enter Purchase Price: ");
+                    double purchasePrice = sc.nextDouble();
 
-	                System.out.println("Stock holding added successfully!");
+                    System.out.print("Enter Current Price: ");
+                    double currentPrice = sc.nextDouble();
 
-	                break;
+                    System.out.print("Enter Quantity: ");
+                    int quantity = sc.nextInt();
 
+                    sc.nextLine();
 
-	            case 3:
+                    Stock stock = new Stock(
+                            stockId,
+                            stockName,
+                            purchasePrice,
+                            currentPrice
+                    );
 
-	                if (user == null) {
-	                    System.out.println("Please create a user first.");
-	                    break;
-	                }
+                    Holding stockHolding = new Holding(
+                            stockHoldingId,
+                            stock,
+                            quantity
+                    );
 
-	                System.out.println("\n--- Add Mutual Fund Holding ---");
+                    // Add holding to selected user
+                    stockUser.addHolding(stockHolding);
 
-	                System.out.print("Enter Holding ID: ");
-	                String mfHoldingId = sc.nextLine();
+                    System.out.println("Stock holding added successfully!");
 
-	                System.out.print("Enter Mutual Fund ID: ");
-	                String mfId = sc.nextLine();
+                    break;
 
-	                System.out.print("Enter Mutual Fund Name: ");
-	                String mfName = sc.nextLine();
 
-	                System.out.print("Enter Purchase Price: ");
-	                double mfPurchasePrice = sc.nextDouble();
+                // =========================================
+                // CASE 3: ADD MUTUAL FUND HOLDING
+                // =========================================
+                case 3:
 
-	                System.out.print("Enter NAV: ");
-	                double nav = sc.nextDouble();
+                    if (users.isEmpty()) {
+                        System.out.println("Please create a user first.");
+                        break;
+                    }
 
-	                System.out.print("Enter Quantity: ");
-	                int mfQuantity = sc.nextInt();
+                    System.out.println("\n--- Add Mutual Fund Holding ---");
 
-	                sc.nextLine();
+                    // Ask which user owns this holding
+                    System.out.print("Enter User ID: ");
+                    String mfUserId = sc.nextLine();
 
-	                MutualFund mutualFund = new MutualFund(
-	                        mfId,
-	                        mfName,
-	                        mfPurchasePrice,
-	                        nav
-	                );
+                    User mfUser = findUser(mfUserId);
 
-	                Holding mfHolding = new Holding(
-	                        mfHoldingId,
-	                        mutualFund,
-	                        mfQuantity
-	                );
+                    if (mfUser == null) {
+                        System.out.println("User not found.");
+                        break;
+                    }
 
-	                user.addHolding(mfHolding);
+                    System.out.print("Enter Holding ID: ");
+                    String mfHoldingId = sc.nextLine();
 
-	                System.out.println("Mutual fund holding added successfully!");
+                    System.out.print("Enter Mutual Fund ID: ");
+                    String mfId = sc.nextLine();
 
-	                break;
+                    System.out.print("Enter Mutual Fund Name: ");
+                    String mfName = sc.nextLine();
 
+                    System.out.print("Enter Purchase Price: ");
+                    double mfPurchasePrice = sc.nextDouble();
 
-	            case 4:
+                    System.out.print("Enter NAV: ");
+                    double nav = sc.nextDouble();
 
-	                if (user == null) {
+                    System.out.print("Enter Quantity: ");
+                    int mfQuantity = sc.nextInt();
 
-	                    System.out.println("No user created.");
+                    sc.nextLine();
 
-	                } else {
+                    MutualFund mutualFund = new MutualFund(
+                            mfId,
+                            mfName,
+                            mfPurchasePrice,
+                            nav
+                    );
 
-	                    System.out.println("\n--- User Details ---");
+                    Holding mfHolding = new Holding(
+                            mfHoldingId,
+                            mutualFund,
+                            mfQuantity
+                    );
 
-	                    user.display();
-	                }
+                    // Add holding to selected user
+                    mfUser.addHolding(mfHolding);
 
-	                break;
+                    System.out.println("Mutual fund holding added successfully!");
 
+                    break;
 
-	            case 5:
 
-	                if (user == null) {
+                // =========================================
+                // CASE 4: DISPLAY ALL USERS
+                // =========================================
+                case 4:
 
-	                    System.out.println("Please create a user first.");
+                    if (users.isEmpty()) {
 
-	                    break;
-	                }
+                        System.out.println("No users created.");
 
-	                System.out.println("\n--- Holdings ---");
+                    } else {
 
-	                if (user.getHoldings().isEmpty()) {
+                        System.out.println("\n--- User Details ---");
 
-	                    System.out.println("No holdings available.");
+                        for (User user : users) {
 
-	                } else {
+                            user.display();
 
-	                    for (Holding holding : user.getHoldings()) {
+                            System.out.println("----------------------------");
+                        }
+                    }
 
-	                        System.out.println(holding);
-	                    }
-	                }
+                    break;
 
-	                break;
 
+                // =========================================
+                // CASE 5: DISPLAY ALL HOLDINGS USER-WISE
+                // =========================================
+                case 5:
 
-	            case 6:
+                    if (users.isEmpty()) {
 
-	                System.out.println("\nThank you for using Stock Portfolio Management System.");
+                        System.out.println("No users created.");
 
-	                break;
+                        break;
+                    }
 
+                    System.out.println("\n--- Holdings ---");
 
-	            default:
+                    for (User user : users) {
 
-	                System.out.println("Invalid choice. Please enter 1 to 6.");
-	            }
+                        System.out.println("\nUser ID: " + user.getUserid());
+                        System.out.println("User Name: " + user.getName());
 
-	        } while (choice != 6);
+                        if (user.getHoldings().isEmpty()) {
 
-	        sc.close();
-	    }
-	}
+                            System.out.println("No holdings available.");
+
+                        } else {
+
+                            for (Holding holding : user.getHoldings()) {
+
+                                System.out.println(holding);
+                            }
+                        }
+
+                        System.out.println("----------------------------");
+                    }
+
+                    break;
+
+
+                // =========================================
+                // CASE 6: EXIT
+                // =========================================
+                case 6:
+
+                    System.out.println(
+                            "\nThank you for using Stock Portfolio Management System."
+                    );
+
+                    break;
+
+
+                default:
+
+                    System.out.println(
+                            "Invalid choice. Please enter 1 to 6."
+                    );
+            }
+
+        } while (choice != 6);
+
+        sc.close();
+    }
+
+
+    // =========================================
+    // FIND USER BY USER ID
+    // =========================================
+    public static User findUser(String userid) {
+
+        for (User user : users) {
+
+            if (user.getUserid().equals(userid)) {
+
+                return user;
+            }
+        }
+
+        return null;
+    }
+}

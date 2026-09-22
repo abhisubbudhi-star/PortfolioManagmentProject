@@ -4,69 +4,88 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class User {
-	
-	private String userid;
-	private String name;
-	private String email;
-	
-	   private List<Holding> holdings;
 
-	    // Constructor
-	    public User(String userid, String name, String email) {
+    private String userid;
+    private String name;
+    private String email;
 
-	        this.userid = userid;
-	        this.name = name;
-	        this.email = email;
+    private List<Holding> holdings;
 
-	        holdings = new ArrayList<>();
-	    }
+    // Constructor
+    public User(String userid, String name, String email) {
 
-	    // Add Holding
-	    public void addHolding(Holding holding) {
+        this.userid = userid;
+        this.name = name;
+        this.email = email;
 
-	        holdings.add(holding);
-	    }
+        holdings = new ArrayList<>();
+    }
 
-	    // Display User
-	    public void display() {
+    // Add Holding
+    public void addHolding(Holding holding) {
 
-	        System.out.println("Userid: " + userid);
-	        System.out.println("Name: " + name);
-	        System.out.println("Email: " + email);
-	        System.out.println("Number of Holdings: " + holdings.size());
-	    }
+        holdings.add(holding);
+    }
 
-	    // Getters and Setters
+    // Display User
+    public void display() {
 
-	    public String getUserid() {
-	        return userid;
-	    }
+        System.out.println("Userid: " + userid);
+        System.out.println("Name: " + name);
+        System.out.println("Email: " + email);
+        System.out.println("Number of Holdings: " + holdings.size());
+    }
+    public void displayHoldings() {
 
-	    public void setUserid(String userid) {
-	        this.userid = userid;
-	    }
+        System.out.println("User ID: " + userid);
+        System.out.println("User Name: " + name);
 
-	    public String getName() {
-	        return name;
-	    }
+        if (holdings.isEmpty()) {
+            System.out.println("No holdings available.");
+            return;
+        }
 
-	    public void setName(String name) {
-	        this.name = name;
-	    }
+        System.out.println("Holdings:");
 
-	    public String getEmail() {
-	        return email;
-	    }
+        for (Holding holding : holdings)
+        {
+            System.out.println(holding);
+        }
+    }
+    
 
-	    public void setEmail(String email) {
-	        this.email = email;
-	    }
+    // Getters and Setters
 
-	    public List<Holding> getHoldings() {
-	        return holdings;
-	    }
+    public String getUserid() {
+        return userid;
+    }
 
-	    public void setHoldings(List<Holding> holdings) {
-	        this.holdings = holdings;
-	    }
-	}
+    public void setUserid(String userid) {
+        this.userid = userid;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public List<Holding> getHoldings() {
+        return holdings;
+    }
+
+    public void setHoldings(List<Holding> holdings) {
+        this.holdings = holdings;
+    }
+    
+}
