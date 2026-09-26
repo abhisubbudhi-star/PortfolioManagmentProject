@@ -1,50 +1,47 @@
 package com.portfolio.app.model;
 
-public class Stock extends Asset{
+public class Stock extends Asset {
 
-	  private double currentPrice;
+    private double currentPrice;
 
-	    // Constructor
-	    public Stock(String assetId,
-	                 String assetName,
-	                 double purchasePrice,
-	                 double currentPrice) {
+    // Default constructor - required for Jackson
+    public Stock() {
+        super();
+    }
 
-	        super(assetId, assetName, purchasePrice);
+    // Parameterized constructor
+    public Stock(String assetId,
+                 String assetName,
+                 double purchasePrice,
+                 double currentPrice) {
 
-	        this.currentPrice = currentPrice;
-	    }
+        super(assetId, assetName, purchasePrice);
+        this.currentPrice = currentPrice;
+    }
 
-	    // Method overriding
-	    @Override
-	    public double calculateCurrentValue() {
+    // Method overriding
+    @Override
+    public double calculateCurrentValue() {
+        return currentPrice;
+    }
 
-	        return currentPrice;
-	    }
+    // Getter
+    public double getCurrentPrice() {
+        return currentPrice;
+    }
 
-	    // Getter
-	    public double getCurrentPrice() {
-	        return currentPrice;
-	    }
+    // Setter
+    public void setCurrentPrice(double currentPrice) {
+        this.currentPrice = currentPrice;
+    }
 
-	    // Setter
-	    public void setCurrentPrice(double currentPrice) {
-
-	        this.currentPrice = currentPrice;
-	    }
-
-	    @Override
-	    public String toString() {
-
-	        return "Stock{" +
-	                "Asset ID='" + getAssetId() + '\'' +
-	                ", Asset Name='" + getAssetName() + '\'' +
-	                ", Purchase Price=" + getPurchasePrice() +
-	                ", Current Price=" + currentPrice +
-	                '}';
-	    }
-	}
-	
-    
-
-
+    @Override
+    public String toString() {
+        return "Stock{" +
+                "Asset ID='" + getAssetId() + '\'' +
+                ", Asset Name='" + getAssetName() + '\'' +
+                ", Purchase Price=" + getPurchasePrice() +
+                ", Current Price=" + currentPrice +
+                '}';
+    }
+}
